@@ -2,8 +2,8 @@
 {
     public enum Statuses
     {
-        pending = 1,
-        confirmed,
-        cancelled
+        Pending = 1,
+        Confirmed,
+        Cancelled
     }
 }

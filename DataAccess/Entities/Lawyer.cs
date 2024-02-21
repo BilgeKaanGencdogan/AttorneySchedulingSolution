@@ -8,14 +8,18 @@ namespace DataAccess.Entities
     {
         [Required]
         [StringLength(100)]
-        public String Name { get; set; }
+        public string Name { get; set; }
 
-        [Required]
-        [StringLength(50)]
-        public String ContactNo { get; set; }
+        public int? ContactId { get; set; }
 
-        [Required]
-        [StringLength(100)]
-        public String TypeOfLawyer { get; set; }
+        public Contact Contact { get; set; }
+
+        public int LawyerTypeId { get; set; }
+
+        public LawyerType LawyerType { get; set; }
+
+        public decimal Price { get; set; }
+
+        public bool IsAvailable { get; set; }
     }
 }

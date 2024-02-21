@@ -3,9 +3,9 @@ using DataAccess.Enums;
 using DataAccess.Records;
 using System.ComponentModel.DataAnnotations;
 
-namespace DataAccess.Entities
+namespace Business.Model
 {
-    public class Appointment : Record
+    public class AppointmentModel : Record
     {
         [Required]
 
@@ -13,11 +13,7 @@ namespace DataAccess.Entities
 
         public int LawyerId { get; set; }
 
-        public Lawyer Lawyer { get; set; }
-
         public int ClientId { get; set; }
-
-        public Client Client { get; set; }
 
         public DateTime StartDateOfAppointment { get; set; }
 

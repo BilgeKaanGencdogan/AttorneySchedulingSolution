@@ -2,9 +2,9 @@
 using DataAccess.Records;
 using System.ComponentModel.DataAnnotations;
 
-namespace DataAccess.Entities
+namespace Business.Model
 {
-    public class Client : Record
+    public class ClientModel : Record
     {
         [Required]
         [StringLength(100)]
@@ -13,7 +13,5 @@ namespace DataAccess.Entities
         public DateTime DateOfBirth { get; set; }
 
         public int? ContactId { get; set; }
-
-        public Contact Contact { get; set; }
     }
 }

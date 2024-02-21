@@ -2,18 +2,16 @@
 using DataAccess.Records;
 using System.ComponentModel.DataAnnotations;
 
-namespace DataAccess.Entities
+namespace Business.Model
 {
-    public class Document : Record
+    public class DocumentModel : Record
     {
         [Required]
 
         public string Name { get; set; }
 
         public int AppointmentId { get; set; }
-        public Appointment Appointment { get; set; }
 
         public string DocumentPath { get; set; }
-
     }
 }
