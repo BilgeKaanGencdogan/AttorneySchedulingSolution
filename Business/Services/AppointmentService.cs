@@ -1,24 +1,43 @@
 ﻿using Business.Model;
-using DataAccess.Contexts;
+using Core.Repositories.EntityFramework.Bases;
+using Core.Results.Bases;
+using Core.Services.Bases;
+using DataAccess.Entities;
 
 namespace Business.Services
 {
 
-    public interface IAppointmentService
+    public interface IAppointmentService : IService<AppointmentModel>
     {
-        IQueryable<AppointmentModel> Query();
+
     }
     public class AppointmentService : IAppointmentService
     {
-        private readonly Db _db;
+        private readonly RepositoryBase<Appointment> _AppointmentRepository;
 
-        public AppointmentService(Db db)
+        public AppointmentService(RepositoryBase<Appointment> AppointmentRepository)
         {
-            _db = db;
+            _AppointmentRepository = AppointmentRepository;
         }
+
+        public Result Add(AppointmentModel model)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Result Delete(int id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void Dispose()
+        {
+            _AppointmentRepository.Dispose();
+        }
+
         public IQueryable<AppointmentModel> Query()
         {
-            return _db.Appointments.Select(appointmentEntity => new AppointmentModel()
+            return _AppointmentRepository.Query().Select(appointmentEntity => new AppointmentModel()
             {
                 Guid = appointmentEntity.Guid,
                 Id = appointmentEntity.Id,
@@ -29,6 +48,11 @@ namespace Business.Services
                 EndDateOfAppointment = appointmentEntity.EndDateOfAppointment,
                 Status = appointmentEntity.Status
             });
+        }
+
+        public Result Update(AppointmentModel model)
+        {
+            throw new NotImplementedException();
         }
     }
 }

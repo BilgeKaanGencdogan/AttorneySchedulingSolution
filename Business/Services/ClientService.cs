@@ -1,23 +1,42 @@
 ﻿using Business.Model;
-using DataAccess.Contexts;
+using Core.Repositories.EntityFramework.Bases;
+using Core.Results.Bases;
+using Core.Services.Bases;
+using DataAccess.Entities;
 
 namespace Business.Services
 {
-    public interface IClientService
+    public interface IClientService : IService<ClientModel>
     {
         IQueryable<ClientModel> Query();
     }
     public class ClientService : IClientService
     {
-        private readonly Db _db;
+        private readonly RepositoryBase<Client> _clientRepository;
 
-        public ClientService(Db db)
+        public ClientService(RepositoryBase<Client> clientRepository)
         {
-            _db = db;
+            _clientRepository = clientRepository;
         }
+
+        public Result Add(ClientModel model)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Result Delete(int id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void Dispose()
+        {
+            _clientRepository.Dispose();
+        }
+
         public IQueryable<ClientModel> Query()
         {
-            return _db.Clients.Select(clientEntity => new ClientModel()
+            return _clientRepository.Query().Select(clientEntity => new ClientModel()
             {
                 Guid = clientEntity.Guid,
                 Id = clientEntity.Id,
@@ -25,6 +44,11 @@ namespace Business.Services
                 ContactId = clientEntity.ContactId,
                 DateOfBirth = clientEntity.DateOfBirth,
             });
+        }
+
+        public Result Update(ClientModel model)
+        {
+            throw new NotImplementedException();
         }
     }
 }

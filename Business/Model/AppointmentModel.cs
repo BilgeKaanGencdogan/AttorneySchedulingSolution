@@ -1,6 +1,6 @@
 ﻿#nullable disable
+using Core.Records.Bases;
 using DataAccess.Enums;
-using DataAccess.Records;
 using System.ComponentModel.DataAnnotations;
 
 namespace Business.Model

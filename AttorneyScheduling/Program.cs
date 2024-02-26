@@ -1,5 +1,7 @@
 using Business.Services;
+using Core.Repositories.EntityFramework.Bases;
 using DataAccess.Contexts;
+using DataAccess.Repositories;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -14,6 +16,8 @@ builder.Services.AddScoped<IContactService, ContactService>();
 builder.Services.AddScoped<IDocumentService, DocumentService>();
 builder.Services.AddScoped<ILawyerService, LawyerService>();
 builder.Services.AddScoped<ILawyerTypeService, LawyerTypeService>();
+
+builder.Services.AddScoped(typeof(RepositoryBase<>), typeof(Repository<>));
 #endregion
 
 // Add services to the container.

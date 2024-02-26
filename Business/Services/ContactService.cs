@@ -1,29 +1,53 @@
 ﻿using Business.Model;
-using DataAccess.Contexts;
+using Core.Repositories.EntityFramework.Bases;
+using Core.Results.Bases;
+using Core.Services.Bases;
+using DataAccess.Entities;
 
 namespace Business.Services
 {
-    public interface IContactService
+    public interface IContactService : IService<ContactModel>
     {
         IQueryable<ContactModel> Query();
     }
     public class ContactService : IContactService
     {
-        private readonly Db _db;
+        private readonly RepositoryBase<Contact> _contactRepository;
 
-        public ContactService(Db db)
+        public ContactService(RepositoryBase<Contact> contactRepository)
         {
-            _db = db;
+            _contactRepository = contactRepository;
         }
+
+        public Result Add(ContactModel model)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Result Delete(int id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void Dispose()
+        {
+            _contactRepository.Dispose();
+        }
+
         public IQueryable<ContactModel> Query()
         {
-            return _db.Contacts.Select(contactEntity => new ContactModel()
+            return _contactRepository.Query().Select(contactEntity => new ContactModel()
             {
                 Guid = contactEntity.Guid,
                 Id = contactEntity.Id,
                 Address = contactEntity.Address,
                 TelephoneNumber = contactEntity.TelephoneNumber,
             });
+        }
+
+        public Result Update(ContactModel model)
+        {
+            throw new NotImplementedException();
         }
     }
 }

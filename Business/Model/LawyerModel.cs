@@ -1,5 +1,5 @@
 ﻿#nullable disable
-using DataAccess.Records;
+using Core.Records.Bases;
 using System.ComponentModel.DataAnnotations;
 
 namespace Business.Model

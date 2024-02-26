@@ -1,5 +1,5 @@
 ﻿#nullable disable
-using DataAccess.Records;
+using Core.Records.Bases;
 
 namespace DataAccess.Entities
 {
