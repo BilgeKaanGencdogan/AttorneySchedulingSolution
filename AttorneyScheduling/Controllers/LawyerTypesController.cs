@@ -1,6 +1,9 @@
 ﻿#nullable disable
 using Business.Model;
 using Business.Services;
+using Core.Results.Bases;
+using FluentValidation;
+using FluentValidation.Results;
 using Microsoft.AspNetCore.Mvc;
 
 //Generated from Custom Template.
@@ -10,10 +13,12 @@ namespace AttorneyScheduling.Controllers
     {
         // TODO: Add service injections here
         private readonly ILawyerTypeService _lawyerTypeService;
+        private readonly IValidator<LawyerTypeModel> _validator;
 
-        public LawyerTypesController(ILawyerTypeService lawyerTypeService)
+        public LawyerTypesController(ILawyerTypeService lawyerTypeService, IValidator<LawyerTypeModel> validator)
         {
             _lawyerTypeService = lawyerTypeService;
+            _validator = validator;
         }
 
         // GET: LawyerTypes
@@ -46,13 +51,27 @@ namespace AttorneyScheduling.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Create(LawyerTypeModel lawyerType)
+        public async Task<IActionResult> Create(LawyerTypeModel lawyerType)
         {
-            if (ModelState.IsValid)
+            ValidationResult validationResult = await _validator.ValidateAsync(lawyerType);
+
+            //if (ModelState.IsValid)
+            //{
+            //    // TODO: Add insert service logic here
+            //    return RedirectToAction(nameof(Index));
+            //}
+
+            if (validationResult.IsValid)
             {
+
+                Result result = _lawyerTypeService.Add(lawyerType);
                 // TODO: Add insert service logic here
                 return RedirectToAction(nameof(Index));
             }
+
+            ViewBag.ValidationErrors = validationResult.Errors;
+
+
             // TODO: Add get related items service logic here to set ViewData if necessary
             return View(lawyerType);
         }

@@ -1,7 +1,9 @@
+using Business.Model;
 using Business.Services;
 using Core.Repositories.EntityFramework.Bases;
 using DataAccess.Contexts;
 using DataAccess.Repositories;
+using FluentValidation;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -18,6 +20,16 @@ builder.Services.AddScoped<ILawyerService, LawyerService>();
 builder.Services.AddScoped<ILawyerTypeService, LawyerTypeService>();
 
 builder.Services.AddScoped(typeof(RepositoryBase<>), typeof(Repository<>));
+
+//Validator registration
+
+builder.Services.AddScoped<IValidator<AppointmentModel>, AppointmentModelValidator>();
+builder.Services.AddScoped<IValidator<ClientModel>, ClientModelValidator>();
+builder.Services.AddScoped<IValidator<ContactModel>, ContactModelValidator>();
+builder.Services.AddScoped<IValidator<DocumentModel>, DocumentModelValidator>();
+builder.Services.AddScoped<IValidator<LawyerModel>, LawyerModelValidator>();
+builder.Services.AddScoped<IValidator<LawyerTypeModel>, LawyerTypeModelValidator>();
+
 #endregion
 
 // Add services to the container.

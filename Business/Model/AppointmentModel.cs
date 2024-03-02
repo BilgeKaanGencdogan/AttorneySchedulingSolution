@@ -1,13 +1,12 @@
 ﻿#nullable disable
 using Core.Records.Bases;
 using DataAccess.Enums;
-using System.ComponentModel.DataAnnotations;
+using FluentValidation;
 
 namespace Business.Model
 {
     public class AppointmentModel : Record
     {
-        [Required]
 
         public string Description { get; set; }
 
@@ -20,5 +19,14 @@ namespace Business.Model
         public DateTime EndDateOfAppointment { get; set; }
 
         public Statuses Status { get; set; }
+    }
+
+    public class AppointmentModelValidator : AbstractValidator<AppointmentModel>
+    {
+        public AppointmentModelValidator()
+        {
+            RuleFor(AppointmentModel => AppointmentModel.Id).NotNull();
+            RuleFor(AppointmentModel => AppointmentModel.Description).NotNull();
+        }
     }
 }
