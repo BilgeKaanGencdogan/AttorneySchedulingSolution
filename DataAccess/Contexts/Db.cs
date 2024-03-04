@@ -16,5 +16,16 @@ namespace DataAccess.Contexts
         {
 
         }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<Appointment>().Property(appointment => appointment.Description).IsRequired();
+            modelBuilder.Entity<Client>().Property(client => client.Name).IsRequired().HasMaxLength(100);
+            modelBuilder.Entity<Contact>().Property(contact => contact.TelephoneNumber).IsRequired();
+            modelBuilder.Entity<Contact>().Property(contact => contact.Address).IsRequired();
+            modelBuilder.Entity<Document>().Property(document => document.Name).IsRequired();
+            modelBuilder.Entity<Lawyer>().Property(lawyer => lawyer.Name).IsRequired().HasMaxLength(100);
+
+        }
     }
 }

@@ -1,12 +1,11 @@
 ﻿#nullable disable
 using Core.Records.Bases;
-using System.ComponentModel.DataAnnotations;
 
 namespace DataAccess.Entities
 {
     public class Document : Record
     {
-        [Required]
+
 
         public string Name { get; set; }
 

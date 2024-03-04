@@ -4,6 +4,7 @@ using Core.Repositories.EntityFramework.Bases;
 using DataAccess.Contexts;
 using DataAccess.Repositories;
 using FluentValidation;
+using FluentValidation.AspNetCore;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -35,6 +36,10 @@ builder.Services.AddScoped<IValidator<LawyerTypeModel>, LawyerTypeModelValidator
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 
+builder.Services.AddMvc().AddFluentValidation(fv =>
+{
+    fv.ImplicitlyValidateChildProperties = true;
+});
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

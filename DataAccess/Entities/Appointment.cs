@@ -1,13 +1,12 @@
 ﻿#nullable disable
 using Core.Records.Bases;
 using DataAccess.Enums;
-using System.ComponentModel.DataAnnotations;
 
 namespace DataAccess.Entities
 {
     public class Appointment : Record
     {
-        [Required]
+
 
         public string Description { get; set; }
 

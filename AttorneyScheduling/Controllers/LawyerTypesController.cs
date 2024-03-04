@@ -3,6 +3,7 @@ using Business.Model;
 using Business.Services;
 using Core.Results.Bases;
 using FluentValidation;
+using FluentValidation.AspNetCore;
 using FluentValidation.Results;
 using Microsoft.AspNetCore.Mvc;
 
@@ -69,8 +70,9 @@ namespace AttorneyScheduling.Controllers
                 return RedirectToAction(nameof(Index));
             }
 
-            ViewBag.ValidationErrors = validationResult.Errors;
+            //ViewBag.ValidationErrors = validationResult.Errors;
 
+            validationResult.AddToModelState(this.ModelState);
 
             // TODO: Add get related items service logic here to set ViewData if necessary
             return View(lawyerType);
