@@ -74,6 +74,7 @@ namespace AttorneyScheduling.Controllers
                     return RedirectToAction(nameof(Index));
                 }
                 TempData["error"] = result.Message;
+                ModelState.AddModelError("", result.Message);
 
             }
 
@@ -116,6 +117,7 @@ namespace AttorneyScheduling.Controllers
                 }
                 // TODO: Add update service logic here
                 TempData["error"] = result.Message;
+                ModelState.AddModelError("", result.Message);
             }
             validationResult.AddToModelState(this.ModelState);
             // TODO: Add get related items service logic here to set ViewData if necessary
@@ -148,6 +150,7 @@ namespace AttorneyScheduling.Controllers
             {
                 TempData["error"] = result.Message;
             }
+            ModelState.AddModelError("", result.Message);
 
             return RedirectToAction(nameof(Index));
         }

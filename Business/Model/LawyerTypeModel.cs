@@ -14,7 +14,8 @@ namespace Business.Model
         public LawyerTypeModelValidator()
         {
             RuleFor(LawyerTypeModel => LawyerTypeModel.Id).NotNull();
-            RuleFor(LawyerTypeModel => LawyerTypeModel.Name).NotNull();
+            RuleFor(LawyerTypeModel => LawyerTypeModel.Name).NotNull().WithName("Lawyer type name");
+
         }
     }
 }
