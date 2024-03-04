@@ -66,8 +66,15 @@ namespace AttorneyScheduling.Controllers
             {
 
                 Result result = _lawyerTypeService.Add(lawyerType);
-                // TODO: Add insert service logic here
-                return RedirectToAction(nameof(Index));
+                if (result.IsSuccessful)
+                {
+                    TempData["success"] = result.Message;
+
+
+                    return RedirectToAction(nameof(Index));
+                }
+                TempData["error"] = result.Message;
+
             }
 
             //ViewBag.ValidationErrors = validationResult.Errors;
@@ -81,7 +88,8 @@ namespace AttorneyScheduling.Controllers
         // GET: LawyerTypes/Edit/5
         public IActionResult Edit(int id)
         {
-            LawyerTypeModel lawyerType = null; // TODO: Add get item service logic here
+            LawyerTypeModel lawyerType = _lawyerTypeService.Query().SingleOrDefault(lawyertypemodel => lawyertypemodel.Id == id);
+            // TODO: Add get item service logic here
             if (lawyerType == null)
             {
                 return NotFound();
@@ -95,13 +103,21 @@ namespace AttorneyScheduling.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Edit(LawyerTypeModel lawyerType)
+        public async Task<IActionResult> EditAsync(LawyerTypeModel lawyerType)
         {
-            if (ModelState.IsValid)
+            ValidationResult validationResult = await _validator.ValidateAsync(lawyerType);
+            if (validationResult.IsValid)
             {
+                Result result = _lawyerTypeService.Update(lawyerType);
+                if (result.IsSuccessful)
+                {
+                    TempData["success"] = result.Message;
+                    return RedirectToAction(nameof(Index));
+                }
                 // TODO: Add update service logic here
-                return RedirectToAction(nameof(Index));
+                TempData["error"] = result.Message;
             }
+            validationResult.AddToModelState(this.ModelState);
             // TODO: Add get related items service logic here to set ViewData if necessary
             return View(lawyerType);
         }
@@ -109,7 +125,7 @@ namespace AttorneyScheduling.Controllers
         // GET: LawyerTypes/Delete/5
         public IActionResult Delete(int id)
         {
-            LawyerTypeModel lawyerType = null; // TODO: Add get item service logic here
+            LawyerTypeModel lawyerType = _lawyerTypeService.Query().SingleOrDefault(lawyertype => lawyertype.Id == id); // TODO: Add get item service logic here
             if (lawyerType == null)
             {
                 return NotFound();
@@ -123,6 +139,16 @@ namespace AttorneyScheduling.Controllers
         public IActionResult DeleteConfirmed(int id)
         {
             // TODO: Add delete service logic here
+            Result result = _lawyerTypeService.Delete(id);
+            if (result.IsSuccessful)
+            {
+                TempData["success"] = result.Message;
+            }
+            else
+            {
+                TempData["error"] = result.Message;
+            }
+
             return RedirectToAction(nameof(Index));
         }
     }
