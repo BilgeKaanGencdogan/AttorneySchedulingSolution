@@ -18,12 +18,28 @@ namespace DataAccess.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
-                    ContactNo = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    TelephoneNumber = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Address = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    DateOfBirth = table.Column<DateTime>(type: "datetime2", nullable: false),
                     Guid = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Clients", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "LawyerTypes",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(type: "nvarchar(150)", maxLength: 150, nullable: false),
+                    Guid = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_LawyerTypes", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -33,13 +49,22 @@ namespace DataAccess.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
-                    ContactNo = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
-                    TypeOfLawyer = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
+                    LawyerTypeId = table.Column<int>(type: "int", nullable: false),
+                    Price = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    IsAvailable = table.Column<bool>(type: "bit", nullable: false),
+                    TelephoneNumber = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Address = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Guid = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Lawyers", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Lawyers_LawyerTypes_LawyerTypeId",
+                        column: x => x.LawyerTypeId,
+                        principalTable: "LawyerTypes",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -48,11 +73,11 @@ namespace DataAccess.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false),
+                    Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     LawyerId = table.Column<int>(type: "int", nullable: false),
                     ClientId = table.Column<int>(type: "int", nullable: false),
-                    DateOfAppointment = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    AddressOfAppointment = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    StartDateOfAppointment = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    EndDateOfAppointment = table.Column<DateTime>(type: "datetime2", nullable: true),
                     Status = table.Column<int>(type: "int", nullable: false),
                     Guid = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
@@ -79,7 +104,7 @@ namespace DataAccess.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     AppointmentId = table.Column<int>(type: "int", nullable: false),
                     DocumentPath = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Guid = table.Column<string>(type: "nvarchar(max)", nullable: true)
@@ -109,6 +134,11 @@ namespace DataAccess.Migrations
                 name: "IX_Documents_AppointmentId",
                 table: "Documents",
                 column: "AppointmentId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Lawyers_LawyerTypeId",
+                table: "Lawyers",
+                column: "LawyerTypeId");
         }
 
         /// <inheritdoc />
@@ -125,6 +155,9 @@ namespace DataAccess.Migrations
 
             migrationBuilder.DropTable(
                 name: "Lawyers");
+
+            migrationBuilder.DropTable(
+                name: "LawyerTypes");
         }
     }
 }

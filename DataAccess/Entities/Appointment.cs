@@ -20,8 +20,10 @@ namespace DataAccess.Entities
 
         public DateTime StartDateOfAppointment { get; set; }
 
-        public DateTime EndDateOfAppointment { get; set; }
+        public DateTime? EndDateOfAppointment { get; set; }
 
         public Statuses Status { get; set; }
+
+        public List<Document> Documents { get; set; }
     }
 }

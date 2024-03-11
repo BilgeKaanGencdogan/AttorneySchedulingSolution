@@ -15,7 +15,6 @@ var connectionString = builder.Configuration.GetConnectionString("DefaultConnect
 builder.Services.AddDbContext<Db>(options => options.UseSqlServer(connectionString));
 builder.Services.AddScoped<IAppointmentService, AppointmentService>();
 builder.Services.AddScoped<IClientService, ClientService>();
-builder.Services.AddScoped<IContactService, ContactService>();
 builder.Services.AddScoped<IDocumentService, DocumentService>();
 builder.Services.AddScoped<ILawyerService, LawyerService>();
 builder.Services.AddScoped<ILawyerTypeService, LawyerTypeService>();
@@ -26,7 +25,6 @@ builder.Services.AddScoped(typeof(RepositoryBase<>), typeof(Repository<>));
 
 builder.Services.AddScoped<IValidator<AppointmentModel>, AppointmentModelValidator>();
 builder.Services.AddScoped<IValidator<ClientModel>, ClientModelValidator>();
-builder.Services.AddScoped<IValidator<ContactModel>, ContactModelValidator>();
 builder.Services.AddScoped<IValidator<DocumentModel>, DocumentModelValidator>();
 builder.Services.AddScoped<IValidator<LawyerModel>, LawyerModelValidator>();
 builder.Services.AddScoped<IValidator<LawyerTypeModel>, LawyerTypeModelValidator>();

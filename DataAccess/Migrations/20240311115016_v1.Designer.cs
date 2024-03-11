@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DataAccess.Migrations
 {
     [DbContext(typeof(Db))]
-    [Migration("20240226111551_v5")]
-    partial class v5
+    [Migration("20240311115016_v1")]
+    partial class v1
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -40,7 +40,7 @@ namespace DataAccess.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime>("EndDateOfAppointment")
+                    b.Property<DateTime?>("EndDateOfAppointment")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Guid")
@@ -72,8 +72,8 @@ namespace DataAccess.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int?>("ContactId")
-                        .HasColumnType("int");
+                    b.Property<string>("Address")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("DateOfBirth")
                         .HasColumnType("datetime2");
@@ -86,35 +86,12 @@ namespace DataAccess.Migrations
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
 
-                    b.HasKey("Id");
+                    b.Property<string>("TelephoneNumber")
+                        .HasColumnType("nvarchar(max)");
 
-                    b.HasIndex("ContactId");
+                    b.HasKey("Id");
 
                     b.ToTable("Clients");
-                });
-
-            modelBuilder.Entity("DataAccess.Entities.Contact", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("Address")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Guid")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("TelephoneNumber")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Contacts");
                 });
 
             modelBuilder.Entity("DataAccess.Entities.Document", b =>
@@ -153,8 +130,8 @@ namespace DataAccess.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int?>("ContactId")
-                        .HasColumnType("int");
+                    b.Property<string>("Address")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Guid")
                         .HasColumnType("nvarchar(max)");
@@ -173,9 +150,10 @@ namespace DataAccess.Migrations
                     b.Property<decimal>("Price")
                         .HasColumnType("decimal(18,2)");
 
-                    b.HasKey("Id");
+                    b.Property<string>("TelephoneNumber")
+                        .HasColumnType("nvarchar(max)");
 
-                    b.HasIndex("ContactId");
+                    b.HasKey("Id");
 
                     b.HasIndex("LawyerTypeId");
 
@@ -194,7 +172,9 @@ namespace DataAccess.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Name")
-                        .HasColumnType("nvarchar(max)");
+                        .IsRequired()
+                        .HasMaxLength(150)
+                        .HasColumnType("nvarchar(150)");
 
                     b.HasKey("Id");
 
@@ -204,13 +184,13 @@ namespace DataAccess.Migrations
             modelBuilder.Entity("DataAccess.Entities.Appointment", b =>
                 {
                     b.HasOne("DataAccess.Entities.Client", "Client")
-                        .WithMany()
+                        .WithMany("Appointments")
                         .HasForeignKey("ClientId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("DataAccess.Entities.Lawyer", "Lawyer")
-                        .WithMany()
+                        .WithMany("Appointments")
                         .HasForeignKey("LawyerId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -220,19 +200,10 @@ namespace DataAccess.Migrations
                     b.Navigation("Lawyer");
                 });
 
-            modelBuilder.Entity("DataAccess.Entities.Client", b =>
-                {
-                    b.HasOne("DataAccess.Entities.Contact", "Contact")
-                        .WithMany()
-                        .HasForeignKey("ContactId");
-
-                    b.Navigation("Contact");
-                });
-
             modelBuilder.Entity("DataAccess.Entities.Document", b =>
                 {
                     b.HasOne("DataAccess.Entities.Appointment", "Appointment")
-                        .WithMany()
+                        .WithMany("Documents")
                         .HasForeignKey("AppointmentId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -242,19 +213,33 @@ namespace DataAccess.Migrations
 
             modelBuilder.Entity("DataAccess.Entities.Lawyer", b =>
                 {
-                    b.HasOne("DataAccess.Entities.Contact", "Contact")
-                        .WithMany()
-                        .HasForeignKey("ContactId");
-
                     b.HasOne("DataAccess.Entities.LawyerType", "LawyerType")
-                        .WithMany()
+                        .WithMany("Lawyers")
                         .HasForeignKey("LawyerTypeId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Contact");
-
                     b.Navigation("LawyerType");
+                });
+
+            modelBuilder.Entity("DataAccess.Entities.Appointment", b =>
+                {
+                    b.Navigation("Documents");
+                });
+
+            modelBuilder.Entity("DataAccess.Entities.Client", b =>
+                {
+                    b.Navigation("Appointments");
+                });
+
+            modelBuilder.Entity("DataAccess.Entities.Lawyer", b =>
+                {
+                    b.Navigation("Appointments");
+                });
+
+            modelBuilder.Entity("DataAccess.Entities.LawyerType", b =>
+                {
+                    b.Navigation("Lawyers");
                 });
 #pragma warning restore 612, 618
         }

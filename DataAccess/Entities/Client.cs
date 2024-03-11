@@ -8,10 +8,14 @@ namespace DataAccess.Entities
 
         public string Name { get; set; }
 
+        public string TelephoneNumber { get; set; }
+        public string Address { get; set; }
+
+
         public DateTime DateOfBirth { get; set; }
 
-        public int? ContactId { get; set; }
+       
 
-        public Contact Contact { get; set; }
+        public List<Appointment> Appointments { get; set; }
     }
 }

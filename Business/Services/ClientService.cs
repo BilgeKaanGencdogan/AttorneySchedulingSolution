@@ -41,7 +41,6 @@ namespace Business.Services
                 Guid = clientEntity.Guid,
                 Id = clientEntity.Id,
                 Name = clientEntity.Name,
-                ContactId = clientEntity.ContactId,
                 DateOfBirth = clientEntity.DateOfBirth,
             });
         }

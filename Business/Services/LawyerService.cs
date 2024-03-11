@@ -41,7 +41,6 @@ namespace Business.Services
                 Guid = lawyerEntity.Guid,
                 Id = lawyerEntity.Id,
                 Name = lawyerEntity.Name,
-                ContactId = lawyerEntity.ContactId,
                 Price = lawyerEntity.Price,
                 IsAvailable = lawyerEntity.IsAvailable,
                 LawyerTypeId = lawyerEntity.LawyerTypeId

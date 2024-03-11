@@ -16,7 +16,7 @@ namespace Business.Model
 
         public DateTime StartDateOfAppointment { get; set; }
 
-        public DateTime EndDateOfAppointment { get; set; }
+        public DateTime? EndDateOfAppointment { get; set; }
 
         public Statuses Status { get; set; }
     }
