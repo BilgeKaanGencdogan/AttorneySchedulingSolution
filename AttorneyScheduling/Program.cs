@@ -12,7 +12,7 @@ var builder = WebApplication.CreateBuilder(args);
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 
 #region IoC Container
-builder.Services.AddDbContext<Db>(options => options.UseSqlServer(connectionString));
+builder.Services.AddDbContext<Db>(options => options.UseMySQL(connectionString));
 builder.Services.AddScoped<IAppointmentService, AppointmentService>();
 builder.Services.AddScoped<IClientService, ClientService>();
 builder.Services.AddScoped<IDocumentService, DocumentService>();
